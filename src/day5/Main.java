@@ -9,7 +9,7 @@ public class Main {
 	public static void main(String[] args) {
 		String input = "ffykfhsq";
 		String message = "";
-		String password = "";
+		String password[] = new String[8];
 		
 		int characters = 0;
 		
@@ -18,18 +18,49 @@ public class Main {
 			String hashedInput = hashValue(message);
 			
 			if(hasFiveZeroes(hashedInput) && characters < 8){
-				password += hashedInput.split("")[5];
-				System.out.println(password);
-				characters++;
+				if(validPosition(hashedInput.split("")[5]) && 
+						password[Integer.parseInt(hashedInput.split("")[5])] == null){
+					password[Integer.parseInt(hashedInput.split("")[5])] = hashedInput.split("")[6];
+					System.out.println(toString(password));
+					characters++;
+				}
 			}
 			
 			if(characters == 8){
-				System.out.println(password);
+				System.out.println("Password: ");
+				System.out.println(toString(password));
 				break;
 			}
 		}
 	}
 	
+	private static String toString(String[] password) {
+		String res = "";
+		
+		for(String letter : password){
+			res += letter;
+		}
+		
+		return res;
+	}
+	
+	private static boolean validPosition(String string) {
+		switch (string) {
+		case "0":
+		case "1":
+		case "2":
+		case "3":
+		case "4":
+		case "5":
+		case "6":
+		case "7":
+			return true;
+
+		default:
+			return false;
+		}
+	}
+
 	private static boolean hasFiveZeroes(String hashedInput) {
 		String[] parts = hashedInput.split("");
 		
